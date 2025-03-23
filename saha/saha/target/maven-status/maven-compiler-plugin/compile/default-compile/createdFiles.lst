@@ -1,0 +1,14 @@
+com\rezarvasyon\saha\entity\OrderItems.class
+com\rezarvasyon\saha\repository\OrderRepository.class
+com\rezarvasyon\saha\SahaApplication.class
+com\rezarvasyon\saha\dto\RegisterRestaurantDto.class
+com\rezarvasyon\saha\repository\OrderItemsRepository.class
+com\rezarvasyon\saha\entity\Restaurant.class
+com\rezarvasyon\saha\dto\OrderItemsDTO.class
+com\rezarvasyon\saha\dto\LoginRestaurantDto.class
+com\rezarvasyon\saha\entity\User.class
+com\rezarvasyon\saha\repository\RestaurantRepository.class
+com\rezarvasyon\saha\repository\UserRepository.class
+com\rezarvasyon\saha\entity\Order.class
+com\rezarvasyon\saha\dto\LoginUserDto.class
+com\rezarvasyon\saha\dto\RegisterUserDto.class
