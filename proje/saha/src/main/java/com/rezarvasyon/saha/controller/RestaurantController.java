@@ -1,10 +1,12 @@
 package com.rezarvasyon.saha.controller;
 
 import com.rezarvasyon.saha.dto.LoginRestaurantDto;
+import com.rezarvasyon.saha.dto.LoginUserResponseDto;
 import com.rezarvasyon.saha.dto.OrderItemDto;
 import com.rezarvasyon.saha.dto.RegisterRestaurantDto;
+import com.rezarvasyon.saha.entity.Restaurant;
+import com.rezarvasyon.saha.service.JwtService;
 import com.rezarvasyon.saha.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,32 +14,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/restaurants")
 public class RestaurantController {
 
-    @Autowired
-    private RestaurantService restaurantService;
 
-    // Register a new restaurant
+    private final RestaurantService restaurantService;
+    private final JwtService jwtService;
+
+    public RestaurantController(RestaurantService restaurantService, JwtService jwtService) {
+        this.restaurantService = restaurantService;
+        this.jwtService = jwtService;
+    }
+
+
+
     @PostMapping("/register")
-    public ResponseEntity<String> registerRestaurant(@RequestBody RegisterRestaurantDto registerRestaurantDto) {
-        try {
-            restaurantService.registerRestaurant(registerRestaurantDto);
-            return ResponseEntity.ok("Restaurant registered successfully!");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error registering restaurant: " + e.getMessage());
-        }
+    public ResponseEntity<Restaurant> registerRestaurant(@RequestBody RegisterRestaurantDto registerRestaurantDto) {
+        Restaurant registeredRestaurant = restaurantService.registerRestaurant(registerRestaurantDto);
+        return ResponseEntity.ok(registeredRestaurant);
     }
 
-    // Login for an existing restaurant
+
     @PostMapping("/login")
-    public ResponseEntity<String> loginRestaurant(@RequestBody LoginRestaurantDto loginRestaurantDto) {
-        try {
-            restaurantService.loginRestaurant(loginRestaurantDto);
-            return ResponseEntity.ok("Login successful!");
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Login failed: " + e.getMessage());
-        }
+    public ResponseEntity<LoginRestaurantDto> loginRestaurant(@RequestBody LoginRestaurantDto loginRestaurantDto) {
+        Restaurant authenticatedRestaurant = restaurantService.loginRestaurant(loginRestaurantDto);
+        String JwtToken = jwtService.generateToken(authenticatedRestaurant);
+        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto().setToken(JwtToken).setExpiresIn(jwtService.getExpirationTime());
+        return ResponseEntity.ok(loginRestaurantDto);
     }
 
-    // Add a new order item to a menu
+
     @PostMapping("/addOrderItem")
     public ResponseEntity<String> addOrderItem(@RequestBody OrderItemDto orderItemDto) {
         try {

@@ -9,31 +9,43 @@ import com.rezarvasyon.saha.entity.Restaurant;
 import com.rezarvasyon.saha.repository.MenuRepository;
 import com.rezarvasyon.saha.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class RestaurantService {
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    private MenuRepository menuRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MenuRepository menuRepository) {
+    private final RestaurantRepository restaurantRepository;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final MenuRepository menuRepository;
+
+    public RestaurantService(RestaurantRepository restaurantRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, MenuRepository menuRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
         this.menuRepository = menuRepository;
     }
 
-    public void registerRestaurant(RegisterRestaurantDto registerRestaurantDto){
+    public Restaurant registerRestaurant(RegisterRestaurantDto registerRestaurantDto){
         Restaurant restaurant=new Restaurant();
         restaurant.setUserName(registerRestaurantDto.getUsername());
-        restaurant.setPassword(registerRestaurantDto.getPassword());
+        restaurant.setPassword(passwordEncoder.encode(registerRestaurantDto.getPassword()));
         restaurant.setEmail(registerRestaurantDto.getEmail());
         Restaurant savedRestaurant=restaurantRepository.save(restaurant);
+        return restaurant;
     }
-    public void loginRestaurant(LoginRestaurantDto loginRestaurantDto){
-        restaurantRepository.findByEmail(loginRestaurantDto.getEmail());
+    public Restaurant loginRestaurant(LoginRestaurantDto loginRestaurantDto){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRestaurantDto.getEmail(),
+                        loginRestaurantDto.getPassword()
+                )
+        );
+        return restaurantRepository.findByEmail(loginRestaurantDto.getEmail())
+                .orElseThrow();
     }
     public void addOrderItem(OrderItemDto orderItemDto) {
 

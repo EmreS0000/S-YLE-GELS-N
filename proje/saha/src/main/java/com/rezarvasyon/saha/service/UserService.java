@@ -2,37 +2,49 @@ package com.rezarvasyon.saha.service;
 
 import com.rezarvasyon.saha.dto.LoginUserDto;
 import com.rezarvasyon.saha.dto.RegisterUserDto;
-import com.rezarvasyon.saha.entity.Restaurant;
 import com.rezarvasyon.saha.entity.User;
 import com.rezarvasyon.saha.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    public UserService(
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder
+
+    ) {
         this.userRepository = userRepository;
+        this.authenticationManager=authenticationManager;
+        this.passwordEncoder=passwordEncoder;
     }
 
-    public void registerUser(RegisterUserDto registerUserDto) {
+    public User registerUser(RegisterUserDto registerUserDto) {
 
         User user = new User();
         user.setUserName(registerUserDto.getUsername());
-        user.setPassword(registerUserDto.getPassword());
+        user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
         user.setEmail(registerUserDto.getEmail());
         userRepository.save(user);
+        return user;
     }
 
-    public Optional<User> loginUser(LoginUserDto loginUserDto) {
+    public User loginUser(LoginUserDto loginUserDto) {
 
-        Optional<User> user = userRepository.findByEmail(loginUserDto.getEmail());
-        if (user.isPresent() && user.get().getPassword().equals(loginUserDto.getPassword())) {
-            return user;
-        }
-        return Optional.empty();
+      authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(
+                      loginUserDto.getEmail(),
+                      loginUserDto.getPassword()
+              )
+      );
+      return userRepository.findByEmail(loginUserDto.getEmail())
+              .orElseThrow();
     }
 }
