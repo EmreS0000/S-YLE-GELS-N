@@ -1,0 +1,275 @@
+
+body {
+    background-image: url('/src/Components/Assets/ChatGPT\ Image\ 27\ Nis\ 2025\ 18_19_25.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100vh;
+  }
+  
+ 
+  .panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: rgb(253, 148, 42);;
+    z-index: 999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    padding-right: 20px; 
+  }
+  
+
+  .location-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .location {
+    background-color: #f0f0f0;
+    border-radius: 50px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .location img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  
+ 
+  .search-container {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    width: 250px;
+  }
+  
+  .search-container input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 16px;
+    width: 200px;
+  }
+  
+  .search-container img {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+  }
+  
+
+  .cart-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cart-container img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .profile-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .profile-container img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+
+  .categories-container {
+    margin-top: 100px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .categories-panel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    padding: 10px;
+    max-width: 100%;
+  }
+  
+
+  .category {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    min-width: 150px;
+  }
+  
+ 
+  .category img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0.8;
+  }
+  
+ 
+  .category span {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  }
+  .cart-modal {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background-color: white;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    z-index: 1000;
+  }
+  .cart-modal h2 {
+    margin-top: 0;
+  }
+  .cart-modal button {
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: #fd942a;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .selected-category {
+    padding: 20px;
+  }
+  
+  .restaurant-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .restaurant-card {
+    width: 250px; 
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  .restaurant-card:hover {
+    transform: scale(1.07);
+  }
+  
+  .restaurant-card img {
+    width: 100%;
+    height: 180px; 
+    object-fit: cover;
+  }
+  
+  .restaurant-card h3 {
+    margin: 15px 0 5px;
+    font-size: 22px;
+  }
+  
+  .restaurant-card p {
+    color: gray;
+    font-size: 18px;
+    margin: 8px 0;
+  }
+  .categories-container {
+    margin-top: 100px;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; 
+    padding: 10px;
+    white-space: nowrap; 
+    scrollbar-width: thin; 
+  }
+  
+  .categories-container::-webkit-scrollbar {
+    height: 8px; 
+  }
+  
+  .categories-container::-webkit-scrollbar-thumb {
+    background-color: #fd942a;
+    border-radius: 10px;
+  }
+ 
+.back-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #fea500;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #e86f13;
+    transform: scale(1.05);
+  }
+  
+
+  .add-to-cart-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #fd942a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: #e37b23;
+    transform: scale(1.05);
+  }
+  

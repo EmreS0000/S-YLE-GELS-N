@@ -17,8 +17,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background:url('./Components/Assets/pizza-2068272_640.jpg') no-repeat;
- background-size: cover;
+  background:url('./Components/Assets/ChatGPT\ Image\ 27\ Nis\ 2025\ 18_19_25.png')no-repeat;
+  background-size: cover;
+  background-position:center;
+  
+
 }
 
 code {
