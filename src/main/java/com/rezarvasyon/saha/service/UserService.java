@@ -2,6 +2,7 @@ package com.rezarvasyon.saha.service;
 
 import com.rezarvasyon.saha.dto.LoginUserDto;
 import com.rezarvasyon.saha.dto.RegisterUserDto;
+import com.rezarvasyon.saha.entity.Role;
 import com.rezarvasyon.saha.entity.User;
 import com.rezarvasyon.saha.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,8 @@ public class UserService {
         user.setUserName(registerUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
         user.setEmail(registerUserDto.getEmail());
+        user.setRole(Role.ROLE_USER);
+
         userRepository.save(user);
         return user;
     }
@@ -43,6 +46,7 @@ public class UserService {
                       loginUserDto.getEmail(),
                       loginUserDto.getPassword()
               )
+
       );
       return userRepository.findByEmail(loginUserDto.getEmail())
               .orElseThrow();

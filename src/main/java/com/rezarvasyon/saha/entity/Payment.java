@@ -20,7 +20,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "order_id",nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
     private String PaymentMethod;
     private boolean isPaid;

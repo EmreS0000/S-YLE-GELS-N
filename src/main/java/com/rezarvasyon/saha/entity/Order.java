@@ -24,11 +24,11 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-    @OneToMany
+    @OneToMany(mappedBy = "order",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<OrderItems> ordersList=new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name ="user_id",nullable = false)
+    @JoinColumn(name ="user_id")
     private User user;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

@@ -33,11 +33,12 @@ public class RestaurantController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginRestaurantDto> loginRestaurant(@RequestBody LoginRestaurantDto loginRestaurantDto) {
-        Restaurant authenticatedRestaurant = restaurantService.loginRestaurant(loginRestaurantDto);
-        String JwtToken = jwtService.generateToken(authenticatedRestaurant);
-        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto().setToken(JwtToken).setExpiresIn(jwtService.getExpirationTime());
-        return ResponseEntity.ok(loginRestaurantDto);
+    public ResponseEntity<LoginUserResponseDto> loginRestaurant(@RequestBody LoginRestaurantDto loginRestaurantDto) {
+        String jwtToken = restaurantService.loginRestaurant(loginRestaurantDto);
+        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto()
+                .setToken(jwtToken)
+                .setExpiresIn(jwtService.getExpirationTime());
+        return ResponseEntity.ok(loginUserResponseDto);
     }
 
 

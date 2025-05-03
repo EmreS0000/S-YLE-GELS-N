@@ -6,6 +6,7 @@ import com.rezarvasyon.saha.dto.RegisterRestaurantDto;
 import com.rezarvasyon.saha.entity.Menu;
 import com.rezarvasyon.saha.entity.OrderItems;
 import com.rezarvasyon.saha.entity.Restaurant;
+import com.rezarvasyon.saha.entity.Role;
 import com.rezarvasyon.saha.repository.MenuRepository;
 import com.rezarvasyon.saha.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,14 @@ public class RestaurantService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final MenuRepository menuRepository;
+    private final JwtService jwtService;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, MenuRepository menuRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, MenuRepository menuRepository, JwtService jwtService) {
         this.restaurantRepository = restaurantRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.menuRepository = menuRepository;
+        this.jwtService = jwtService;
     }
 
     public Restaurant registerRestaurant(RegisterRestaurantDto registerRestaurantDto){
@@ -34,18 +37,25 @@ public class RestaurantService {
         restaurant.setUserName(registerRestaurantDto.getUsername());
         restaurant.setPassword(passwordEncoder.encode(registerRestaurantDto.getPassword()));
         restaurant.setEmail(registerRestaurantDto.getEmail());
+        restaurant.setAddress(registerRestaurantDto.getAddress());
+        restaurant.setPhoneNumber(registerRestaurantDto.getPhoneNumber());
+        restaurant.setRole(Role.ROLE_RESTAURANT);
+
         Restaurant savedRestaurant=restaurantRepository.save(restaurant);
         return restaurant;
     }
-    public Restaurant loginRestaurant(LoginRestaurantDto loginRestaurantDto){
+    public String loginRestaurant(LoginRestaurantDto loginRestaurantDto){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRestaurantDto.getEmail(),
                         loginRestaurantDto.getPassword()
                 )
         );
-        return restaurantRepository.findByEmail(loginRestaurantDto.getEmail())
+
+        Restaurant restaurant = restaurantRepository.findByEmail(loginRestaurantDto.getEmail())
                 .orElseThrow();
+
+        return jwtService.generateToken(restaurant);
     }
     public void addOrderItem(OrderItemDto orderItemDto) {
 

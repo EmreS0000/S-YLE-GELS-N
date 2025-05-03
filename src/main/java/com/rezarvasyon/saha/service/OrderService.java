@@ -29,19 +29,19 @@ public class OrderService {
     public Order placeOrder(OrderRequest orderRequest) {
 
         User user = userRepository.findById(orderRequest.getUserRequest().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+               .orElseThrow(() -> new RuntimeException("User not found"));
         Restaurant restaurant = restaurantRepository.findById(orderRequest.getRestoranRequest().getId())
-                .orElseThrow(() -> new RuntimeException("Restoran not found"));
+             .orElseThrow(() -> new RuntimeException("Restoran not found"));
 
 
         Order order = new Order();
-        order.setUser(user);
-        order.setRestaurant(restaurant);
+       order.setUser(user);
+       order.setRestaurant(restaurant);
         order.setOrderStatus(OrderStatus.NEW);
         order.setTotalPrice(0.0);
         order.setOrdersList(new ArrayList<>());
 
-        // Sipariş ürünleri ekleniyor
+
         double totalPrice = 0.0;
         for (OrderItemRequest itemRequest : orderRequest.getOrder()) {
             OrderItems orderItem = new OrderItems();
